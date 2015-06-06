@@ -21,6 +21,10 @@ class Contact
     [@id, @email, @first_name, @last_name]
   end
  
+  def list_all_contacts
+    @@all_contacts.each {|x| puts x }
+  end
+
   def self.create(email, first_name, last_name)
     # Adding a new data field requires adding in self.create, self.new, contact_to_array, attr_reader
     id = @@all_contacts.length + 1
@@ -38,5 +42,9 @@ class Contact
     @@all_contacts = data_from_file
   end
 
+  def self.searchable_contacts
+    searchable_contacts = @@all_contacts #.map(&:downcase)
+    # searchable_contacts
+  end
 end
 

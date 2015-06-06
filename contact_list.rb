@@ -30,7 +30,8 @@ when "add"
   Contact.create(email, first_name, last_name)
 
 when "list"
-  puts "List"
+  Contact.list_all_contacts
+
 
 when "show"
   puts "Show"

@@ -1,5 +1,6 @@
 ## TODO: Implement CSV reading/writing
 require 'csv'
+require 'pry'
 
 class ContactDatabase
 
@@ -14,22 +15,22 @@ class ContactDatabase
   def show_contact_details
   end
 
-  def list_all_contacts
-  end
-
   def self.find(search_term)
-    puts "You are searching for #{search_term}."
-    #p Contact.all_contacts[0][1].include?("Seymour")
-    contact_list = Contact.all_contacts[0]
+    puts "You searched for #{search_term}."
+    contact_list = Contact.searchable_contacts
     results = contact_list.select {|contact| contact.include?(search_term)}
-    puts "DONE"
-    p results[0][1]
-    if results != nil
-      puts results
+    # binding.pry
+    if results != []
+        puts "Results:"
+      results.each do |x| 
+        puts "ID: \t\t #{x[0]}"
+        puts "Email: \t\t #{x[1]}"
+        puts "First name: \t #{x[2]}"
+        puts "Last name: \t #{x[3]}"
+      end
     else
       puts "Sorry, no matching contacts found."
     end
   end
-
 end
 
