@@ -23,11 +23,10 @@ class ContactDatabase
     if results != []
         puts "Results:"
       results.each do |x| 
-        puts "ID: \t\t #{x[0]}"
-        puts "Email: \t\t #{x[1]}"
-        puts "First name: \t #{x[2]}"
-        puts "Last name: \t #{x[3]}"
+        puts "#{x[0]}: #{x[2]} #{x[3]} (#{x[1]}) \n" 
       end
+      puts "------"
+      puts "Records found : #{results.count}"
     else
       puts "Sorry, no matching contacts found."
     end
