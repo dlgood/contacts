@@ -12,7 +12,18 @@ class ContactDatabase
     puts "#{new_contact[2]} was added, with an ID of #{new_contact[0]}."
   end
 
-  def show_contact_details
+  def self.show(search_id)
+    puts "You searched for ID #{search_id}."
+    contact_list = Contact.searchable_contacts
+    results = contact_list.select {|contact| contact[0].include?(search_id)}
+    if results != []
+      puts "Results:"
+      puts results
+      puts "------"
+      puts "Records found : #{results.count}"
+    else
+      puts "Sorry, no matching contacts found."
+    end
   end
 
   def self.find(search_term)

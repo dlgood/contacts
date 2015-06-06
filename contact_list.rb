@@ -32,9 +32,10 @@ when "add"
 when "list"
   Contact.list_all_contacts
 
-
 when "show"
-  puts "Show"
+  puts "Show. Please enter the id you would like to find."
+  search_id = STDIN.gets.chomp.to_s
+  ContactDatabase.show(search_id)
 
 when "find"
   puts "Find. Please enter the search term."
