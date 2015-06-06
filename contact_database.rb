@@ -8,6 +8,7 @@ class ContactDatabase
     CSV.open("contacts.csv", "ab") do |csv|
       csv << new_contact
     end
+    puts "#{new_contact[2]} was added, with an ID of #{new_contact[0]}."
   end
 
   def show_contact_details
