@@ -4,13 +4,15 @@ require 'pry'
 
 option = ARGV[0]
 
+Contact.all_contacts(CSV.read('contacts.csv')) 
+# p Contact.all_contacts
+
 puts "WELCOME TO THE CONTACTINATOR 3000"
 
 case option
 when "add"
-  puts "Add Contact \n(Press Enter to skip a particular field)"
+  puts "Add contact \n(Press Enter to skip a particular field)"
   puts "Email?"
-  id = 2
   email = STDIN.gets.chomp.to_s
     # TODO add check for uniqueness
   puts "First name?"
@@ -25,14 +27,19 @@ when "add"
   # state = STDIN.gets.chomp.to_s
   # puts "Phone?"
   # phone = STDIN.gets.chomp.to_s
-  Contact.create(email: email, first_name: first_name, last_name: last_name)
+  Contact.create(email, first_name, last_name)
 
 when "list"
   puts "List"
+
 when "show"
   puts "Show"
+
 when "find"
-  puts "Find"
+  puts "Find. Please enter the search term."
+  search_term = STDIN.gets.chomp.to_s
+  ContactDatabase.find(search_term)
+
 when "help"
   puts "\nHere is a list of available commands:\n
   \tnew  - Create a new contact

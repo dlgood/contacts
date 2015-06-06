@@ -1,9 +1,13 @@
 require_relative 'contact_database'
 
 class Contact
-  attr_accessor :first_name, :email, :last_name, :street, :city, :state, :phone
 
-  def initialize(email:, first_name:, last_name:)
+  @@all_contacts = []
+
+  attr_reader :first_name, :email, :last_name, :street, :city, :state, :phone
+
+  def initialize(id, email, first_name, last_name)
+    @id = id
     @email = email
     @first_name = first_name
     @last_name = last_name
@@ -13,31 +17,26 @@ class Contact
     # @phone = phone
   end
  
-  def to_s
-    # TODO: return string representation of Contact
+  def contact_to_array
+    [@id, @email, @first_name, @last_name]
   end
  
-  ## Class Methods
-  class << self
-    def create(submitted_user_info)
-      new_contact = self.new(submitted_user_info)
-      puts "New contact created with this info: #{new_contact}"
-      new_contact_data = new_contact # (@email, @firstname, @lastname)
-      puts "New contact created with this info: #{new_contact_data.inspect}" 
-      ContactDatabase.add_contact(new_contact_data)
-    end
- 
-    def find(index)
-      # TODO: Will find and return contact by index
-    end
- 
-    def all
-      # TODO: Return the list of contacts, as is
-    end
+  def self.create(email, first_name, last_name)
+    # Adding a new data field requires adding in self.create, self.new, contact_to_array, attr_reader
+    id = @@all_contacts.length + 1
+    new_contact = self.new(id, email, first_name, last_name)
     
-    def show(id)
-      # TODO: Show a contact, based on ID
-    end
+    # add self to contacts in memory
+    @@all_contacts << new_contact
+    
+    # add self to CSV
+    new_contact_array_for_csv = new_contact.contact_to_array
+    ContactDatabase.add_contact(new_contact_array_for_csv)
   end
+
+  def self.all_contacts(data_from_file)
+    @@all_contacts = data_from_file
+  end
+
 end
 
