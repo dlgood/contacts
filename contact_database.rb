@@ -51,5 +51,15 @@ class ContactDatabase
       puts "Sorry, no matching contacts found."
     end
   end
+
+  def self.check_email_uniqueness(new_email)
+    results = Contact.searchable_contacts.select {|contact| contact[1].include?(new_email)}
+    if results != [] 
+      puts "Sorry, that email is already used by a contact. Emails must be unique. Try again or hit Ctrl C to exit."
+      puts "Email?"
+      new_email = STDIN.gets.chomp.to_s
+      check_email_uniqueness(new_email)
+    end
+  end
 end
 

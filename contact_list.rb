@@ -14,6 +14,7 @@ when "add"
   puts "Add contact \n(Press Enter to skip a particular field)"
   puts "Email?"
   email = STDIN.gets.chomp.to_s
+  ContactDatabase.check_email_uniqueness(email)
     # TODO add check for uniqueness
   puts "First name?"
   first_name = STDIN.gets.chomp.to_s
