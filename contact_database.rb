@@ -26,6 +26,15 @@ class ContactDatabase
     end
   end
 
+  def self.list
+    puts "All contacts:\n"
+    Contact.searchable_contacts.each do |x| 
+      puts "#{x[0]}: #{x[2]} #{x[3]} (#{x[1]}) \n" 
+    end
+    puts "------"
+    puts "Records found : #{Contact.searchable_contacts.count}"
+  end
+
   def self.find(search_term)
     puts "You searched for #{search_term}."
     contact_list = Contact.searchable_contacts

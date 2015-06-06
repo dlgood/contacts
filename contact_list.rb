@@ -30,7 +30,7 @@ when "add"
   Contact.create(email, first_name, last_name)
 
 when "list"
-  Contact.list_all_contacts
+  ContactDatabase.list
 
 when "show"
   puts "Show. Please enter the id you would like to find."
