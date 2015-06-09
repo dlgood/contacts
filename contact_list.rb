@@ -4,7 +4,7 @@ require 'pry'
 
 option = ARGV[0]
 
-Contact.all_contacts(CSV.read('contacts.csv')) 
+# Contact.all_contacts(CSV.read('contacts.csv')) 
 # p Contact.all_contacts
 
 puts "WELCOME TO THE CONTACTINATOR 3000"
@@ -14,34 +14,33 @@ when "add"
   puts "Add contact \n(Press Enter to skip a particular field)"
   puts "Email?"
   email = STDIN.gets.chomp.to_s
-  ContactDatabase.check_email_uniqueness(email)
+  # ContactDatabase.check_email_uniqueness(email)
     # TODO add check for uniqueness
   puts "First name?"
   first_name = STDIN.gets.chomp.to_s
   puts "Last name?"
   last_name = STDIN.gets.chomp.to_s
-  # puts "Street Address?"
-  # address = STDIN.gets.chomp.to_s
-  # puts "City?"
-  # city = STDIN.gets.chomp.to_s
-  # puts "State?"
-  # state = STDIN.gets.chomp.to_s
-  # puts "Phone?"
-  # phone = STDIN.gets.chomp.to_s
-  Contact.create(email, first_name, last_name)
+  puts "Phone?"
+  phone = STDIN.gets.chomp.to_s
+  #create contact
+  contact = Contact.new(nil, first_name, last_name, email, phone)
+  
+  #save contact in postgres
+  contact.save
+  puts "Contact saved for #{first_name} #{last_name}."
 
 when "list"
   ContactDatabase.list
 
-when "show"
-  puts "Show. Please enter the id you would like to find."
-  search_id = STDIN.gets.chomp.to_s
-  ContactDatabase.show(search_id)
+# when "show"
+#   puts "Show. Please enter the id you would like to find."
+#   search_id = STDIN.gets.chomp.to_s
+#   ContactDatabase.show(search_id)
 
 when "find"
-  puts "Find. Please enter the search term."
-  search_term = STDIN.gets.chomp.to_s
-  ContactDatabase.find(search_term)
+  puts "Find by last name. Please enter the last name to find."
+  last_name = STDIN.gets.chomp.to_s
+  ContactDatabase.find(last_name)
 
 when "help"
   puts "\nHere is a list of available commands:\n

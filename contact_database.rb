@@ -4,53 +4,44 @@ require 'pry'
 
 class ContactDatabase
 
-  def self.add_contact(new_contact)
-    puts "Adding #{new_contact} to csv."
-    CSV.open("contacts.csv", "ab") do |csv|
-      csv << new_contact
-    end
-    puts "#{new_contact[2]} was added, with an ID of #{new_contact[0]}."
+  def self.save(contact)
+    contact_save_result = $conn.exec_params("INSERT INTO contacts (first_name, last_name, email, phone) VALUES ('#{contact.first_name}', '#{contact.last_name}', '#{contact.email}', '#{contact.phone}');")
   end
 
-  def self.show(search_id)
-    puts "You searched for ID #{search_id}."
-    contact_list = Contact.searchable_contacts
-    results = contact_list.select {|contact| contact[0].include?(search_id)}
-    if results != []
-      puts "Results:"
-      puts results
-      puts "------"
-      puts "Records found : #{results.count}"
-    else
-      puts "Sorry, no matching contacts found."
+  def self.find(last_name)
+    search_results = $conn.exec_params("SELECT * FROM contacts WHERE last_name = $1", [last_name])
+    results_array = Contact.to_array(search_results)
+    results_array.each do |contact|
+    puts "ID: #{contact.id} Full Name: #{contact.first_name} #{contact.last_name} Email: #{contact.email} Phone: #{contact.phone}"
     end
+    puts "-------\n"
+    puts "#{results_array.length} results found."
   end
 
   def self.list
-    puts "All contacts:\n"
-    Contact.searchable_contacts.each do |x| 
-      puts "#{x[0]}: #{x[2]} #{x[3]} (#{x[1]}) \n" 
+    pg_result = $conn.exec_params('SELECT * FROM contacts')
+    results_array = Contact.to_array(pg_result)
+    results_array.each do |contact|
+    puts "ID: #{contact.id} Full Name: #{contact.first_name} #{contact.last_name} Email: #{contact.email} Phone: #{contact.phone}"
     end
-    puts "------"
-    puts "Records found : #{Contact.searchable_contacts.count}"
+    puts "-------\n"
+    puts "#{results_array.length} results found."
   end
 
-  def self.find(search_term)
-    puts "You searched for #{search_term}."
-    contact_list = Contact.searchable_contacts
-    results = contact_list.select {|contact| contact.include?(search_term)}
-    # binding.pry
-    if results != []
-        puts "Results:"
-      results.each do |x| 
-        puts "#{x[0]}: #{x[2]} #{x[3]} (#{x[1]}) \n" 
-      end
-      puts "------"
-      puts "Records found : #{results.count}"
-    else
-      puts "Sorry, no matching contacts found."
-    end
-  end
+  # def self.show(search_id)
+  #   puts "You searched for ID #{search_id}."
+  #   contact_list = Contact.searchable_contacts
+  #   results = contact_list.select {|contact| contact[0].include?(search_id)}
+  #   if results != []
+  #     puts "Results:"
+  #     puts results
+  #     puts "------"
+  #     puts "Records found : #{results.count}"
+  #   else
+  #     puts "Sorry, no matching contacts found."
+  #   end
+  # end
+
 
   def self.check_email_uniqueness(new_email)
     results = Contact.searchable_contacts.select {|contact| contact[1].include?(new_email)}
