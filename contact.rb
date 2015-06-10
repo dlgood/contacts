@@ -1,5 +1,4 @@
 require_relative 'contact_database'
-require_relative 'connect'
 
 class Contact
 
