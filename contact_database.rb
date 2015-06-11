@@ -31,7 +31,7 @@ class ContactDatabase
 
   def self.delete(id)
     contact_delete_result = connect_to_db.exec_params("DELETE FROM contacts WHERE id = #{id};")
-  end
+  end 
 
   def self.find(last_name)
     search_results = connect_to_db.exec_params("SELECT * FROM contacts WHERE last_name = $1", [last_name])
